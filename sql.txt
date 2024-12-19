@@ -1,0 +1,70 @@
+
+CREATE DATABASE hospital;
+USE hospital;
+
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    location VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE doctors (
+    doc_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    specialization VARCHAR(100) NOT NULL,
+    phone CHAR(15) NOT NULL,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+
+CREATE TABLE patients (
+    pt_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    phone CHAR(15) NOT NULL
+);
+
+
+CREATE TABLE appointments (
+    appt_id INT PRIMARY KEY,
+    doc_id INT,
+    pt_id INT,
+    date date NOT NULL,
+    time time NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    FOREIGN KEY (doc_id) REFERENCES doctors(doc_id),
+    FOREIGN KEY (pt_id) REFERENCES patients(pt_id)
+);
+
+
+INSERT INTO departments VALUES
+(1, 'Cardiology', 'Building A, Floor 2'),
+(2, 'Neurology', 'Building B, Floor 1'),
+(3, 'Pediatrics', 'Building A, Floor 1'),
+(4, 'Orthopedics', 'Building C, Floor 2'),
+(5, 'Emergency Medicine', 'Building A, Ground Floor');
+
+INSERT INTO doctors VALUES
+(1, 'Dr. Dipu', 'Cardiologist', '00000000', 1),
+(2, 'Dr. Sakib', 'Neurologist', '00000000', 2),
+(3, 'Dr. Siam', 'Pediatrician', '00000000', 3),
+(4, 'Dr. Sara', 'Orthopedic Surgeon', '00000000', 4),
+(5, 'Dr. Shuvo', 'Emergency Physician', '00000000', 5);
+
+INSERT INTO patients VALUES
+(1, 'Bubly', 45, 'Female', '00000000'),
+(2, 'Sabnur', 32, 'Female', '00000000'),
+(3, 'Purnima', 8, 'Female', '00000000'),
+(4, 'Poppy', 60, 'Female', '00000000'),
+(5, 'dighi', 28, 'Female', '00000000');
+
+INSERT INTO appointments VALUES
+(1, 1, 1, '2024-12-20', '09:00:00', 'Scheduled'),
+(2, 2, 2, '2024-12-20', '10:30:00', 'Confirmed'),
+(3, 3, 3, '2024-12-21', '11:00:00', 'Scheduled'),
+(4, 4, 4, '2024-12-22', '12:00:00', 'Confirmed'),
+(5, 5, 5, '2024-12-22', '01:00:00', 'Scheduled');
+
+
