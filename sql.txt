@@ -1,0 +1,79 @@
+
+CREATE DATABASE Hospital;
+USE Hospital;
+
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    location VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Doctors (
+    doc_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    specialization VARCHAR(100) NOT NULL,
+    phone CHAR(15) NOT NULL,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE Patients (
+    pt_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    phone CHAR(15) NOT NULL
+);
+
+
+CREATE TABLE Appointments (
+    appt_id INT PRIMARY KEY AUTO_INCREMENT,
+    doc_id INT NOT NULL,
+    pt_id INT NOT NULL,
+    Date DATE NOT NULL,
+    Time TIME NOT NULL,
+    Status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+    FOREIGN KEY (doc_id) REFERENCES Doctors(doc_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE,
+    FOREIGN KEY (pt_id) REFERENCES Patients(pt_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE
+);
+
+
+
+INSERT INTO Doctors (name, specialization, phone) 
+VALUES
+('Dr. Purnima', 'Cardiology', '1122334455'),
+('Dr. Pori Moni', 'Neurology', '1122334455'),
+('Dr. Mousumi', 'Orthopedics', '1122334455'),
+('Dr. Bubly', 'Pediatrics', '1122334455'),
+('Dr. Shabnur', 'Dermatology', '1122334455');
+select * from Doctors;
+INSERT INTO Patients (name, age, gender, phone) 
+VALUES
+('Sakib Khan', 16, 'Male', '1122334455'),
+('Zayed Khan', 14, 'Male', '1122334455'),
+('Hero Alam', 15, 'Male', '1122334455'),
+('Manna', 13, 'Male', '1122334455'),
+('Maruf', 12, 'Male', '1122334455');
+select * from Appointments;
+
+INSERT INTO Appointments (doc_id, pt_id, Date, Time, Status) 
+VALUES
+(1, 1, '2024-12-22', '10:00:00', 'Scheduled'),
+(2, 2, '2024-12-23', '11:30:00', 'Scheduled'),
+(3, 3, '2024-12-24', '14:00:00', 'Scheduled'),
+(4, 4, '2024-12-25', '09:00:00', 'Scheduled'),
+(5, 5, '2024-12-26', '15:30:00', 'Scheduled');
+
+INSERT INTO Departments (name, location) VALUES
+('Cardiology', 'Building A'),
+('Neurology', 'Building B'),
+('Orthopedics', 'Building C'),
+('Pediatrics', 'Building D'),
+('Dermatology', 'Building E');
